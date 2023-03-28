@@ -3,9 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medlink/components/custom_button.dart';
 import 'package:medlink/components/hospital_info.dart';
 import 'package:medlink/pages/home_screen.dart';
+import 'package:medlink/config/get_hospitals.dart';
 
 class HospitalInfoPage extends StatefulWidget {
-  const HospitalInfoPage({super.key});
+  const HospitalInfoPage({super.key, required this.hospitalData});
+
+  final HospitalData hospitalData;
   @override
   State<HospitalInfoPage> createState() => _HospitalInfoState();
 }
@@ -68,7 +71,7 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                             height: 15,
                           ),
                           Text(
-                            'Mayo Clinic',
+                            widget.hospitalData.hospitalName,
                             style: Theme.of(context)
                                 .textTheme
                                 .displayLarge
@@ -78,7 +81,7 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                             height: 5,
                           ),
                           Text(
-                            'Rochester, USA',
+                             '${widget.hospitalData.city} ${widget.hospitalData.region}, ${widget.hospitalData.country}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

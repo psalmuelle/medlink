@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^2.0.1
   google_fonts: ^4.0.3
   textfield_search: ^0.10.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
