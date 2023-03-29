@@ -88,6 +88,10 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     height: 60,
                     child: ElevatedButton(
+                     style: OutlinedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          shadowColor: Theme.of(context).primaryColor,
+                        ),
                         onPressed: () {
                           Navigator.push(
                               context,

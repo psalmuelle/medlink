@@ -100,7 +100,7 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                         height: 48,
                         decoration:const BoxDecoration(
                           shape: BoxShape.circle,
-                          color:  Color(0xff353535),
+                          color:  Color(0xff091939),
                         ),
                         child:const Icon(
                           Icons.arrow_back,
