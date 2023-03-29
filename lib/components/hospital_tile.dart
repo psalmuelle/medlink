@@ -145,7 +145,8 @@ class HospitalTile extends StatelessWidget {
                     ),
                     SvgPicture.asset(
                       'assets/view_more.svg',
-                      color: Colors.white,
+                      colorFilter:const ColorFilter.mode(
+                          Colors.white, BlendMode.srcIn),
                     )
                   ],
                 ),

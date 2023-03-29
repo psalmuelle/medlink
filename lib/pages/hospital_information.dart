@@ -49,61 +49,66 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                   Container(
                     height: 250,
                     width: double.infinity,
-                    color: Theme.of(context).primaryColor,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/hospital_img.jpg'),
+                            fit: BoxFit.cover)),
                     alignment: Alignment.center,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: const BoxDecoration(
-                                color: Colors.white, shape: BoxShape.circle),
-                            child: SvgPicture.asset(
-                              fit: BoxFit.scaleDown,
-                              'assets/hospital_logo1.svg',
-                              semanticsLabel: 'Hospital logo',
-                              colorFilter: ColorFilter.mode(
-                                  Theme.of(context).primaryColor,
-                                  BlendMode.srcIn),
+                    child: Container(
+                      width: 300,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.7),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.hospitalData.hospitalName,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.displayLarge,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            widget.hospitalData.hospitalName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge
-                                ?.copyWith(color: Colors.white),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '${widget.hospitalData.city} ${widget.hospitalData.region}, ${widget.hospitalData.country}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: Colors.white, fontSize: 20),
-                          ),
-                        ]),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              '${widget.hospitalData.city} ${widget.hospitalData.region}, ${widget.hospitalData.country}',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontSize: 20),
+                            ),
+                          ]),
+                    ),
                   ),
                   Positioned(
-                      top: 0,
-                      left: 1,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(
+                    top: 5,
+                    left: 5,
+                    child: InkWell(
+                      onTap: () {
+                         Navigator.pop(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const HomePage()));
-                        },
-                        icon: const Icon(Icons.arrow_back),
-                        iconSize: 32,
-                        color: Colors.white,
-                      )),
+                      },
+                      child: Container(
+                        width: 48,
+                        height: 48,
+                        decoration:const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:  Color(0xff353535),
+                        ),
+                        child:const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(
