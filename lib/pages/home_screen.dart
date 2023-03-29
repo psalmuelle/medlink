@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medlink/components/homepage_section_two.dart';
@@ -18,6 +17,7 @@ class _HomeState extends State<HomePage> {
   List<HospitalData>? hospitalData;
 
   bool isDataLoaded = false;
+  final controller = TextEditingController();
 
   Future<List<HospitalData>?> getDataFromAPI() async {
     var client = http.Client();
@@ -97,6 +97,8 @@ class _HomeState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             child: SizedBox(
               child: TextField(
+                controller: controller,
+                onChanged: searchHospital,
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -177,5 +179,16 @@ class _HomeState extends State<HomePage> {
         ]),
       )),
     );
+  }
+  void searchHospital(String query){
+    final suggestions = hospitalData?.where((hospital){
+      final hospitalName = hospital.hospitalName.toLowerCase();
+      final input = query.toLowerCase();
+      return hospitalName.contains(input);
+    }).toList();
+
+    setState(() {
+      hospitalData = suggestions;
+    });
   }
 }
