@@ -152,10 +152,10 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                 height: MediaQuery.of(context).size.height - 440.0,
                 child: PageView(
                   controller: infoController,
-                  children: const [
-                    OverviewPage(),
-                    ServicesPage(),
-                    FacilitiesPage()
+                  children:  [
+                    OverviewPage(hospitalData: widget.hospitalData,),
+                    ServicesPage(servicesOffered:  widget.hospitalData.servicesOffered.split(','),),
+                    FacilitiesPage(facilities: widget.hospitalData.otherFacilities.split(','),)
                   ],
                 ),
               ),
