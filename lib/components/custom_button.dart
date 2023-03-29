@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
                     backgroundColor: Theme.of(context).primaryColor,
                     shadowColor: Theme.of(context).primaryColor,
                     fixedSize: const Size.fromHeight(44)),
-                child: const Text('Overview'),
+                child: Text(text),
               )
             : OutlinedButton(
                 onPressed: onPressed,

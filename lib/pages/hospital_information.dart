@@ -4,6 +4,7 @@ import 'package:medlink/components/custom_button.dart';
 import 'package:medlink/components/hospital_info.dart';
 import 'package:medlink/pages/home_screen.dart';
 import 'package:medlink/config/get_hospitals.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HospitalInfoPage extends StatefulWidget {
   const HospitalInfoPage({super.key, required this.hospitalData});
@@ -81,7 +82,7 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                             height: 5,
                           ),
                           Text(
-                             '${widget.hospitalData.city} ${widget.hospitalData.region}, ${widget.hospitalData.country}',
+                            '${widget.hospitalData.city} ${widget.hospitalData.region}, ${widget.hospitalData.country}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -152,10 +153,18 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
                 height: MediaQuery.of(context).size.height - 440.0,
                 child: PageView(
                   controller: infoController,
-                  children:  [
-                    OverviewPage(hospitalData: widget.hospitalData,),
-                    ServicesPage(servicesOffered:  widget.hospitalData.servicesOffered.split(','),),
-                    FacilitiesPage(facilities: widget.hospitalData.otherFacilities.split(','),)
+                  children: [
+                    OverviewPage(
+                      hospitalData: widget.hospitalData,
+                    ),
+                    ServicesPage(
+                      servicesOffered:
+                          widget.hospitalData.servicesOffered.split(','),
+                    ),
+                    FacilitiesPage(
+                      facilities:
+                          widget.hospitalData.otherFacilities.split(','),
+                    )
                   ],
                 ),
               ),
@@ -169,14 +178,28 @@ class _HospitalInfoState extends State<HospitalInfoPage> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final Uri url = Uri.parse(widget.hospitalData.websiteUrl);
+                if (await canLaunchUrl(url)) {
+                  launchUrl(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
               style: OutlinedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   shadowColor: Theme.of(context).primaryColor,
                   fixedSize: const Size(171, 46)),
               child: const Text('Visit Website')),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final call = Uri.parse('tel:${widget.hospitalData.hotline}');
+                if (await canLaunchUrl(call)) {
+                  launchUrl(call);
+                } else {
+                  throw 'Could not launch $call';
+                }
+              },
               style: OutlinedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
                 shadowColor: Theme.of(context).primaryColor,

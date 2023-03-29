@@ -162,6 +162,7 @@ class _HomeState extends State<HomePage> {
                 itemCount: hospitalData?.length,
                 itemBuilder: (context, index) {
                   return Container(
+                    constraints: const BoxConstraints(maxWidth: 350),
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: HospitalTile(
                         hospitalName: hospitalData![index].hospitalName,
