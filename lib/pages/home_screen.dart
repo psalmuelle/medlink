@@ -72,17 +72,20 @@ class _HomeState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Welcome!',
+                      textAlign: TextAlign.left,
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     Text(
                       user?.email ?? 'User email',
+                      textAlign: TextAlign.left,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                          ?.copyWith(fontWeight: FontWeight.w500),
                     )
                   ],
                 ),

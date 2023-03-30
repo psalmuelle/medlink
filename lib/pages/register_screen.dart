@@ -22,7 +22,7 @@ String? errorMessage = '';
 
   Future<void> createUserWithEmailAndPassword() async{
     try {
-      await Auth().createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage())));
+      await Auth().createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((value) => Navigator.pop(context));
 
     } on FirebaseAuthException catch(e) {
         setState(() {
