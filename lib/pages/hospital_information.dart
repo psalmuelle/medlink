@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medlink/components/custom_button.dart';
 import 'package:medlink/components/hospital_info.dart';
 import 'package:medlink/pages/home_screen.dart';

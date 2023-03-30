@@ -2,15 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:medlink/components/my_textfield.dart';
 import 'package:medlink/pages/home_screen.dart';
 import 'package:medlink/pages/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medlink/auth.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
 
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+
+String? errorMessage = '';
   // text editing controllers
-  final usernameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
+  Future<void> createUserWithEmailAndPassword() async{
+    try {
+      await Auth().createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage())));
+
+    } on FirebaseAuthException catch(e) {
+        setState(() {
+          errorMessage = e.message;
+        });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,22 +69,15 @@ class RegisterPage extends StatelessWidget {
                           horizontal: 25, vertical: 40),
                       child: Column(children: [
                         MyTextField(
-                            hintText: 'Username',
-                            controller: usernameController,
-                            obscureText: false),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        MyTextField(
                             hintText: 'Email',
-                            controller: emailController,
+                            controller: _emailController,
                             obscureText: false),
                         const SizedBox(
                           height: 20,
                         ),
                         MyTextField(
                             hintText: 'Password',
-                            controller: passwordController,
+                            controller: _passwordController,
                             obscureText: true),
                       ]),
                     ),
@@ -83,12 +95,7 @@ class RegisterPage extends StatelessWidget {
                           backgroundColor: Theme.of(context).primaryColor,
                           shadowColor: Theme.of(context).primaryColor,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
-                        },
+                        onPressed: createUserWithEmailAndPassword,
                         child: Text(
                           'Register',
                           style: Theme.of(context)
@@ -115,7 +122,7 @@ class RegisterPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()));
+                                builder: (context) =>const LoginPage()));
                       },
                       child: Text(
                         'Login',

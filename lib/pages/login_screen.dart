@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medlink/components/my_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medlink/auth.dart';
 import 'package:medlink/pages/home_screen.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+
+class _LoginPageState extends State<LoginPage> {
+  
+  String? errorMessage = '';
+  bool isLogin =true;
   // text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async{
+    try {
+      await Auth().signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+    } on FirebaseAuthException catch(e) {
+        setState(() {
+          errorMessage = e.message;
+        });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +73,15 @@ class LoginPage extends StatelessWidget {
                           horizontal: 25, vertical: 40),
                       child: Column(children: [
                         MyTextField(
-                            hintText: 'Username',
-                            controller: usernameController,
+                            hintText: 'Email',
+                            controller: _emailController,
                             obscureText: false),
                         const SizedBox(
                           height: 20,
                         ),
                         MyTextField(
                             hintText: 'Password',
-                            controller: passwordController,
+                            controller: _passwordController,
                             obscureText: true),
                       ]),
                     ),
@@ -79,6 +101,7 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
+              
               const SizedBox(
                 height: 30,
               ),
@@ -92,12 +115,7 @@ class LoginPage extends StatelessWidget {
                           backgroundColor: Theme.of(context).primaryColor,
                           shadowColor: Theme.of(context).primaryColor,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
-                        },
+                        onPressed: signInWithEmailAndPassword,
                         child: Text(
                           'Login',
                           style: Theme.of(context)
