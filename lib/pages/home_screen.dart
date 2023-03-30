@@ -5,6 +5,8 @@ import 'package:medlink/components/homepage_section_two.dart';
 import 'package:medlink/components/hospital_tile.dart';
 import 'package:medlink/config/get_hospitals.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medlink/auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +16,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
+  final User? user = Auth().currentUser;
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
   List<HospitalData>? hospitalData;
 
   bool isDataLoaded = false;
@@ -70,7 +78,7 @@ class _HomeState extends State<HomePage> {
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     Text(
-                      'Erinle Samuel',
+                      user?.email ?? 'User email',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -78,11 +86,19 @@ class _HomeState extends State<HomePage> {
                     )
                   ],
                 ),
-                SvgPicture.asset(
-                  'assets/Group 903.svg',
-                  semanticsLabel: 'Profile',
-                  width: 60,
-                ),
+                PopupMenuButton(
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem(
+                      onTap: signOut,
+                      child: const Text('Logout'),
+                    )
+                  ],
+                  child: SvgPicture.asset(
+                    'assets/Group 903.svg',
+                    semanticsLabel: 'Profile',
+                    width: 50,
+                  ),
+                )
               ],
             ),
           ),
@@ -164,8 +180,9 @@ class _HomeState extends State<HomePage> {
                 itemCount: hospitalData?.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    constraints: const BoxConstraints(maxWidth: 350),
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      constraints: const BoxConstraints(maxWidth: 350),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
                       child: HospitalTile(
                         hospitalName: hospitalData![index].hospitalName,
                         location:
@@ -180,8 +197,9 @@ class _HomeState extends State<HomePage> {
       )),
     );
   }
-  void searchHospital(String query){
-    final suggestions = hospitalData?.where((hospital){
+
+  void searchHospital(String query) {
+    final suggestions = hospitalData?.where((hospital) {
       final hospitalName = hospital.hospitalName.toLowerCase();
       final input = query.toLowerCase();
       return hospitalName.contains(input);
