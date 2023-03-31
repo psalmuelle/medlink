@@ -7,6 +7,7 @@ import 'package:medlink/config/get_hospitals.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medlink/auth.dart';
+import 'package:medlink/pages/all_hospitals.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -109,9 +110,6 @@ class _HomeState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-
-          //Search Text Field
-          //Use the text search you downloaded form pubdev
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             child: SizedBox(
@@ -143,10 +141,43 @@ class _HomeState extends State<HomePage> {
             height: 130,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: const [
-                SectionTwoContainer(),
-                SectionTwoContainer(),
-                SectionTwoContainer(),
+              children: [
+                SectionTwoContainer(
+                  containerName: 'Hospitals Around Me',
+                  assetName: 'assets/around_me.svg',
+                  onClick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllHospitalPage(
+                                  hospitalData: hospitalData?.where((element) => element.country == 'NG').toList(),
+                                )));
+                  },
+                ),
+                SectionTwoContainer(
+                  containerName: 'Emergency Hospitals',
+                  assetName: 'assets/emergency.svg',
+                  onClick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllHospitalPage(
+                                  hospitalData: hospitalData,
+                                )));
+                  },
+                ),
+                SectionTwoContainer(
+                  containerName: 'Specialist Hospitals',
+                  assetName: 'assets/hospital_logo.svg',
+                  onClick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllHospitalPage(
+                                  hospitalData: hospitalData?.where((element) => element.facilityType == 'Specialist').toList(),
+                                )));
+                  },
+                ),
               ],
             ),
           ),
@@ -163,7 +194,14 @@ class _HomeState extends State<HomePage> {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AllHospitalPage(
+                                    hospitalData: hospitalData,
+                                  )));
+                    },
                     child: Text('See More ->',
                         style: Theme.of(context).textTheme.bodyMedium))
               ],
@@ -180,7 +218,7 @@ class _HomeState extends State<HomePage> {
             child: SizedBox(
               height: 500,
               child: ListView.builder(
-                itemCount: hospitalData?.length,
+                itemCount: 10,
                 itemBuilder: (context, index) {
                   return Container(
                       constraints: const BoxConstraints(maxWidth: 350),
